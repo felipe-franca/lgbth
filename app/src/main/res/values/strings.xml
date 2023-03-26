@@ -6,4 +6,8 @@
     <string name="home_ong_option_label">ONGs</string>
     <string name="home_podcast_option_label">Podcasts</string>
     <string name="home_main_logo">Logo Tema LGBT Helper</string>
+    <string name="home_nav_menu">Home</string>
+    <string name="localization_nav_menu">Localização</string>
+    <string name="favorite_nav_menu">Favoritos</string>
+    <string name="user_nav_menu">Usuário</string>
 </resources>
