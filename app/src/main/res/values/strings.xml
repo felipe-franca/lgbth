@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">lgbth</string>
+    <string name="app_name">LGBTH</string>
+    <string name="main_card_news">Main Card News</string>
+    <string name="home_politicts_option_label">Política</string>
+    <string name="home_works_option_label">Trabalho</string>
+    <string name="home_ong_option_label">ONGs</string>
+    <string name="home_podcast_option_label">Podcasts</string>
+    <string name="home_main_logo">Logo Tema LGBT Helper</string>
 </resources>
