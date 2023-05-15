@@ -15,7 +15,7 @@
         android:title="@string/favorite_nav_menu" />
     <item
         android:id="@+id/user"
-        android:icon="@drawable/ic_outline_person_24"
+        android:icon="@drawable/ic_baseline_person_pin_24"
         android:title="@string/user_nav_menu"
         />
 

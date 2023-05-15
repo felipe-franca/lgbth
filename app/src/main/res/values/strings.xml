@@ -10,4 +10,12 @@
     <string name="localization_nav_menu">Localização</string>
     <string name="favorite_nav_menu">Favoritos</string>
     <string name="user_nav_menu">Usuário</string>
+    <string name="novo_cadastro">Novo Cadastro</string>
+    <string name="lgbt_help_logo_definition">Lgbt help logo</string>
+    <string name="edittext_name_hint">Nome</string>
+    <string name="edittext_email_hint">Email</string>
+    <string name="edittext_password_hint">Senha</string>
+    <string name="pwd_confirmation">Confirmar senha</string>
+    <string name="btn_save">Salvar</string>
+    <string name="btn_cancel">Cancelar</string>
 </resources>

@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,8 +16,15 @@
         android:roundIcon="@mipmap/ic_theme"
         android:supportsRtl="true"
         android:theme="@style/Theme.Lgbth"
+        android:usesCleartextTraffic="true"
         tools:targetApi="33">
-
+        <activity
+            android:name=".ui.activity.RegisterUserActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="false">
@@ -23,7 +32,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".ui.activity.SplashScreenActivity"
             android:exported="true">
@@ -37,7 +45,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
 
 </manifest>
