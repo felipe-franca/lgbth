@@ -37,7 +37,6 @@
         android:drawableStart="@drawable/ic_baseline_person_pin_24"
         android:hint="@string/edittext_name_hint"
         android:inputType="textCapWords"
-        android:textColorHint="@color/grey_100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_activity_person_image" />
@@ -49,7 +48,6 @@
         android:drawableStart="@drawable/ic_baseline_email_24"
         android:hint="@string/edittext_email_hint"
         android:inputType="textEmailAddress"
-        android:textColorHint="@color/grey_100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_activity_name_input" />
@@ -61,7 +59,6 @@
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:hint="@string/edittext_password_hint"
         android:inputType="textPassword"
-        android:textColorHint="@color/grey_100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_activity_email" />
@@ -73,7 +70,6 @@
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:hint="@string/pwd_confirmation"
         android:inputType="textPassword"
-        android:textColorHint="@color/grey_100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_activity_pwd" />
@@ -108,6 +104,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_activity_pwd_confirmation"
-        app:layout_constraintVertical_bias=".4" />
+        app:layout_constraintVertical_bias=".7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

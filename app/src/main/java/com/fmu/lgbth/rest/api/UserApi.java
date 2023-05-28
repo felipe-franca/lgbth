@@ -18,4 +18,7 @@ public interface UserApi {
 
     @PUT("/user/update")
     Call<User> update(@Body User user);
+
+    @POST("/user/sign-in")
+    Call<User> signIn(@Body User user);
 }

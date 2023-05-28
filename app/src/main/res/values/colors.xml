@@ -10,4 +10,5 @@
     <color name="home_option_b_color">#767676</color>
     <color name="grey_100">#bebebe</color>
     <color name="grey_500">#4c4c4c</color>
+    <color name="blue_light">#0d6efd</color>
 </resources>

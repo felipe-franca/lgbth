@@ -1,7 +1,9 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,14 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import com.fmu.lgbth.R;
+import com.fmu.lgbth.dao.UserDao;
+import com.fmu.lgbth.database.Database;
+import com.fmu.lgbth.model.User;
 
 
 public class UserFragment extends Fragment {
@@ -35,15 +43,30 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        configListeners(view);
+        try {
+            User user = getUser();
+            if (user == null) {
+                replaceFragment(new UnregisteredFragment());
+            } else {
+                replaceFragment(new LoggedUserFragment());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void configListeners(View view) {
-        Button saveUserButton = view.findViewById(R.id.persist_user);
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        saveUserButton.setOnClickListener(buttonView -> {
-            Intent intentTo = new Intent(getActivity(), RegisterUserActivity.class);
-            startActivity(intentTo);
-        });
+        fragmentTransaction.replace(R.id.user_fragment_parent, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private User getUser() {
+        UserDao dao = Room.databaseBuilder(getContext(), Database.class, "lgbt.db")
+                .allowMainThreadQueries()
+                .build().getUserDao();
+
+        return dao.get();
     }
 }

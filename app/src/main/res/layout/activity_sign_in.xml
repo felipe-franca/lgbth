@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.SignInActivity">
+
+
+    <ImageView
+        android:id="@+id/signin_activity_logo"
+        style="@style/splash_screen_image_200"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/lgbt_help_logo_definition"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".3" />
+
+
+    <EditText
+        android:id="@+id/signin_email_input"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:hint="@string/edittext_email_hint"
+        app:layout_constraintBottom_toTopOf="@id/sigin_pwd_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signin_activity_logo" />
+
+    <EditText
+        android:id="@+id/sigin_pwd_input"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:hint="@string/edittext_password_hint"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signin_email_input" />
+
+    <Button
+        android:id="@+id/register_button_issue"
+        style="@style/main_default_button"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="17dp"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sigin_pwd_input" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.58" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

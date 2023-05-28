@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_unregistered"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.UserFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_fragment_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/unregistered_activity_logo"
+            style="@style/splash_screen_image_200"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:contentDescription="@string/lgbt_help_logo_definition"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias=".4"/>
+
+        <Button
+            android:id="@+id/register_button_issue"
+            style="@style/main_default_button"
+            android:text="@string/register"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="17dp"
+            app:layout_constraintTop_toBottomOf="@+id/unregistered_activity_logo"
+            app:layout_constraintBottom_toTopOf="@id/login_button_issue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/login_button_issue"
+            style="@style/black_button"
+            android:text="@string/login"
+            android:layout_marginTop="17dp"
+            app:layout_constraintTop_toBottomOf="@+id/register_button_issue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

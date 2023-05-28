@@ -135,6 +135,9 @@ public class RegisterUserActivity extends AppCompatActivity {
         ShapeableImageView avatarView = findViewById(R.id.register_activity_person_image);
 
         if (avatarView.getDrawable() instanceof VectorDrawable) {
+            cancelIssueButton.setVisibility(View.VISIBLE);
+            submitIssueButton.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.GONE);
             Toast.makeText(RegisterUserActivity.this, "Adicione uma imagem", Toast.LENGTH_SHORT).show();
             return;
         }
