@@ -44,6 +44,12 @@ public class RegisterUserActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(com.fmu.lgbth.R.layout.activity_register_user);
 
+        loading = findViewById(R.id.register_activity_loading);
+
+        if (loading.getVisibility() == View.VISIBLE) {
+            loading.setVisibility(View.GONE);
+        }
+
         imgFromGallery = findViewById(R.id.register_activity_person_image);
 
         imgFromGallery.setOnClickListener(view -> {

@@ -15,6 +15,11 @@ import com.fmu.lgbth.database.Database;
 import com.fmu.lgbth.model.User;
 import com.fmu.lgbth.rest.RestClient;
 import com.fmu.lgbth.rest.api.UserApi;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -55,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
                     User user = response.body();
 
                     if (null == user) {
-                        Toast.makeText(SignInActivity.this, "Necessário preencher todos os campos !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "Erro ao efetuar login", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -66,7 +71,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
-                    Toast.makeText(SignInActivity.this, "Email ou senha inválidos !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
