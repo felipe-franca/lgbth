@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logged_user_logo_main_activity_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/grey_500"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_person_80"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.97"
+        android:layout_marginTop="8dp"
+        app:shapeAppearanceOverlay="@style/rounded_image_view_rounded" />
+
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="0dp"

@@ -1,18 +1,14 @@
 package com.fmu.lgbth.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
@@ -44,11 +40,11 @@ public class UserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            User user = getUser();
+            User user = getPersistedUserIfExists();
             if (user == null) {
                 replaceFragment(new UnregisteredFragment());
             } else {
-                replaceFragment(new LoggedUserFragment());
+                 replaceFragment(new LoggedUserFragment());
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -62,7 +58,7 @@ public class UserFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private User getUser() {
+    private User getPersistedUserIfExists() {
         UserDao dao = Room.databaseBuilder(getContext(), Database.class, "lgbt.db")
                 .allowMainThreadQueries()
                 .build().getUserDao();

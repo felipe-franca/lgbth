@@ -3,11 +3,9 @@ package com.fmu.lgbth.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,13 +22,6 @@ import com.fmu.lgbth.rest.api.UserApi;
 import com.fmu.lgbth.utils.Base64Converter;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
