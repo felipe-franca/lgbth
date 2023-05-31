@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name=".ui.activity.UsefullyPhonesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.SignInActivity"
             android:exported="false">
             <meta-data

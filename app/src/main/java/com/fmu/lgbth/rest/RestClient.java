@@ -1,6 +1,7 @@
 package com.fmu.lgbth.rest;
 
 import com.fmu.lgbth.model.User;
+import com.fmu.lgbth.rest.api.UsefullyPhones;
 import com.fmu.lgbth.rest.api.UserApi;
 
 import retrofit2.Retrofit;
@@ -8,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
     private final UserApi userApi;
+    private final UsefullyPhones usefullyPhonesApi;
 
     public RestClient() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -16,7 +18,10 @@ public class RestClient {
                 .build();
 
         userApi = retrofit.create(UserApi.class);
+        usefullyPhonesApi = retrofit.create(UsefullyPhones.class);
     }
 
     public UserApi getUserApi() { return userApi; }
+
+    public UsefullyPhones getUsefullyPhonesApi() { return usefullyPhonesApi; }
 }
