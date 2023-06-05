@@ -81,9 +81,9 @@ public class LoggedUserFragment extends Fragment {
     }
 
     private void configListeners(View aView) {
-        Button getout = aView.findViewById(R.id.get_out);
+        Button getOut = aView.findViewById(R.id.get_out);
 
-        getout.setOnClickListener(getOutView -> {
+        getOut.setOnClickListener(getOutView -> {
             removePersistedUser();
 
             Intent homeIntent = new Intent(getContext(), MainActivity.class);

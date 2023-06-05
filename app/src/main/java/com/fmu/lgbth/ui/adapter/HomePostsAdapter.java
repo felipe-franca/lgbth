@@ -1,6 +1,7 @@
 package com.fmu.lgbth.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.fmu.lgbth.R;
 import com.fmu.lgbth.model.Post;
+import com.fmu.lgbth.utils.Base64Converter;
 import com.fmu.lgbth.utils.ImageFetcher;
 
 import java.util.List;
@@ -50,16 +52,13 @@ public class HomePostsAdapter extends BaseAdapter {
 
     private void bind(View view, Post post) {
         TextView title = view.findViewById(R.id.home_post_card_title);
-        TextView resume = view.findViewById(R.id.home_post_resume);
         ImageView banner = view.findViewById(R.id.home_post_banner);
         TextView description = view.findViewById(R.id.home_post_description);
-        TextView footer = view.findViewById(R.id.home_post_footer);
 
         title.setText(post.getTitle());
-        resume.setText(post.getResume());
         description.setText(post.getDescription());
-        footer.setText(post.getFooter());
 
-        new ImageFetcher((ImageView) banner).execute(post.getImageResource());
+        Bitmap decodeUserImage = Base64Converter.decodeImage(post.getBanner());
+        banner.setImageBitmap(decodeUserImage);
     }
 }

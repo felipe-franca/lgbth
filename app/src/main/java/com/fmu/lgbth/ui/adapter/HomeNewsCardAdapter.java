@@ -1,7 +1,7 @@
 package com.fmu.lgbth.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmu.lgbth.R;
-import com.fmu.lgbth.model.News;
-import com.fmu.lgbth.utils.ImageFetcher;
+import com.fmu.lgbth.model.Post;
+import com.fmu.lgbth.utils.Base64Converter;
 
 import java.util.List;
 
 public class HomeNewsCardAdapter extends RecyclerView.Adapter<HomeNewsCardAdapter.ViewHolder> {
     private Context context;
-    private List<News> newsList;
+    private List<Post> newsList;
 
-    public HomeNewsCardAdapter(Context context, List<News> newsList) {
+    public HomeNewsCardAdapter(Context context, List<Post> newsList) {
         this.context = context;
         this.newsList = newsList;
     }
@@ -37,10 +37,11 @@ public class HomeNewsCardAdapter extends RecyclerView.Adapter<HomeNewsCardAdapte
             bannerImage = itemView.findViewById(R.id.main_news_card_banner);
         }
 
-        public void bind(News aNews) {
-            description.setText(aNews.getDescription());
-            Log.i("URL", aNews.getBannerName());
-            new ImageFetcher((ImageView) bannerImage).execute(aNews.getBannerName());
+        public void bind(Post aPost) {
+            description.setText(aPost.getDescription());
+
+            Bitmap decodeUserImage = Base64Converter.decodeImage(aPost.getBanner());
+            bannerImage.setImageBitmap(decodeUserImage);
         }
     }
 
@@ -53,8 +54,8 @@ public class HomeNewsCardAdapter extends RecyclerView.Adapter<HomeNewsCardAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        News aNews = newsList.get(position);
-        holder.bind(aNews);
+        Post aPost = newsList.get(position);
+        holder.bind(aPost);
     }
 
     @Override
