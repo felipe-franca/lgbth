@@ -1,66 +1,104 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fmu.lgbth.R;
+import com.fmu.lgbth.dao.UserDao;
+import com.fmu.lgbth.database.Database;
+import com.fmu.lgbth.model.Post;
+import com.fmu.lgbth.model.User;
+import com.fmu.lgbth.rest.RestClient;
+import com.fmu.lgbth.rest.api.PostsApi;
+import com.fmu.lgbth.ui.adapter.HomePostsAdapter;
+import com.fmu.lgbth.utils.Base64Converter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FavoriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FavoriteFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public FavoriteFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavoriteFragment newInstance(String param1, String param2) {
-        FavoriteFragment fragment = new FavoriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        configPosts(view);
+    }
+
+    private void configPosts(View view) {
+        try {
+            ListView newsListView = view.findViewById(R.id.favorite_post_card);
+
+            User user = getUser();
+            PostsApi api = new RestClient().getPostApi();
+            Call<List<Post>> call = api.getFavoritePosts(user.getId());
+
+//            LinearLayoutManager lm = new LinearLayoutManager(getContext());
+//            lm.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+            call.enqueue(new Callback<List<Post>>() {
+                @Override
+                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    List<Post> postList = response.body();
+
+                    if (null == postList) {
+                        Toast.makeText(getContext(), "Nenhum post encontrado", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    HomePostsAdapter newsAdapter = new HomePostsAdapter(getContext(), postList);
+                    newsListView.setAdapter(newsAdapter);
+
+                    ProgressBar loading = view.findViewById(R.id.favorites_progress_bar);
+                    loading.setVisibility(View.GONE);
+                    newsListView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(getContext(), "Ocorreu um erro ao carregar as 'News'", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private User getUser() {
+        UserDao dao = Room.databaseBuilder(getContext(), Database.class, "lgbt.db")
+                .allowMainThreadQueries()
+                .build().getUserDao();
+
+        return dao.get();
     }
 }
