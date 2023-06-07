@@ -37,7 +37,7 @@ public class HomePostsAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return postList.get(position).getId();
     }
 
     @Override

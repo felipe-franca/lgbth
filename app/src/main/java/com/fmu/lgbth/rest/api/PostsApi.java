@@ -1,11 +1,15 @@
 package com.fmu.lgbth.rest.api;
 
 import com.fmu.lgbth.model.Post;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface PostsApi {
@@ -17,4 +21,7 @@ public interface PostsApi {
 
     @GET("/favorites/posts/{userId}")
     Call<List<Post>> getFavoritePosts(@Path("userId") int userId);
+
+    @PUT("/favorites/posts/create")
+    Call<String> postFavorite(@Body JsonObject json);
 }

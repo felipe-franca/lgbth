@@ -1,9 +1,11 @@
 package com.fmu.lgbth.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,13 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.fmu.lgbth.R;
+import com.fmu.lgbth.dao.UserDao;
+import com.fmu.lgbth.database.Database;
 import com.fmu.lgbth.model.Post;
+import com.fmu.lgbth.model.User;
 import com.fmu.lgbth.rest.RestClient;
 import com.fmu.lgbth.rest.api.PostsApi;
 import com.fmu.lgbth.ui.adapter.HomeNewsCardAdapter;
 import com.fmu.lgbth.ui.adapter.HomePostsAdapter;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -54,6 +61,7 @@ public class HomeFragment extends Fragment {
 
         configNewsView(view);
         configPostView(view);
+        configListeners(view);
     }
 
     private void configNewsView(View view) {
@@ -86,8 +94,6 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-
-            configListeners(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,6 +121,13 @@ public class HomeFragment extends Fragment {
 
                     HomePostsAdapter newsAdapter = new HomePostsAdapter(getContext(), postList);
                     newsListView.setAdapter(newsAdapter);
+
+                    newsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                        ImageView cv = view.findViewById(R.id.news_favorite_icon);
+                        cv.setOnClickListener(v -> {
+                            setFavorite(postList.get(i).getId());
+                        });
+                    });
                 }
 
                 @Override
@@ -162,5 +175,41 @@ public class HomeFragment extends Fragment {
 
             return;
         });
+    }
+
+    private void setFavorite(int id) {
+        try {
+            User user = getUser();
+
+            PostsApi api = new RestClient().getPostApi();
+            JsonObject json = new JsonObject();
+            json.addProperty("userId", user.getId());
+            json.addProperty("postId", id);
+            Call<String> call = api.postFavorite(json);
+
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.i("favorite", response.body().toString());
+                    Toast.makeText(getContext(), "Favoritado com sucesso !", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(getContext(), "Erro ao favoritar Post !", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Erro ao favoritar Post !", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private User getUser() {
+        UserDao dao = Room.databaseBuilder(getContext(), Database.class, "lgbt.db")
+                .allowMainThreadQueries()
+                .build().getUserDao();
+
+        return dao.get();
     }
 }

@@ -25,6 +25,7 @@ import com.fmu.lgbth.rest.RestClient;
 import com.fmu.lgbth.rest.api.PostsApi;
 import com.fmu.lgbth.ui.adapter.HomePostsAdapter;
 import com.fmu.lgbth.utils.Base64Converter;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -61,9 +62,6 @@ public class FavoriteFragment extends Fragment {
             User user = getUser();
             PostsApi api = new RestClient().getPostApi();
             Call<List<Post>> call = api.getFavoritePosts(user.getId());
-
-//            LinearLayoutManager lm = new LinearLayoutManager(getContext());
-//            lm.setOrientation(LinearLayoutManager.HORIZONTAL);
 
             call.enqueue(new Callback<List<Post>>() {
                 @Override
