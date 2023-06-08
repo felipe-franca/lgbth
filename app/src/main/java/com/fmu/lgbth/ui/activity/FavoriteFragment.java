@@ -1,5 +1,6 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.room.Room;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -79,6 +81,13 @@ public class FavoriteFragment extends Fragment {
                     ProgressBar loading = view.findViewById(R.id.favorites_progress_bar);
                     loading.setVisibility(View.GONE);
                     newsListView.setVisibility(View.VISIBLE);
+
+                    newsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                        Intent intent = new Intent(getContext(), PostDetail.class);
+                        intent.putExtra("POSTID", postList.get(i).getId());
+
+                        startActivity(intent);
+                    });
                 }
 
                 @Override
