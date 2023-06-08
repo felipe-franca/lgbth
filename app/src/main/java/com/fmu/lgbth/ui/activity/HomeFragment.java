@@ -1,5 +1,6 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,6 +121,11 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                     newsListView.setAdapter(newsAdapter);
 
                     newsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                        Intent intent = new Intent(getContext(), PostDetail.class);
+                        intent.putExtra("POSTID", postList.get(i).getId());
+
+                        startActivity(intent);
+
                         ImageView cv = view.findViewById(R.id.news_favorite_icon);
                         cv.setOnClickListener(v -> {
                             setFavorite(postList.get(i).getId());
@@ -212,6 +218,13 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position, View v, List<Post> newsList) {
+        v.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), PostDetail.class);
+            intent.putExtra("POSTID", newsList.get(position).getId());
+
+            startActivity(intent);
+        });
+
         ImageView iv = v.findViewById(R.id.post_favorite_icon);
 
         iv.setOnClickListener(view -> {
