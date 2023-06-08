@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -23,5 +24,5 @@ public interface PostsApi {
     Call<List<Post>> getFavoritePosts(@Path("userId") int userId);
 
     @PUT("/favorites/posts/create")
-    Call<String> postFavorite(@Body JsonObject json);
+    Call<ResponseBody> postFavorite(@Body JsonObject json);
 }

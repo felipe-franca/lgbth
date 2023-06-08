@@ -1,7 +1,6 @@
 package com.fmu.lgbth.ui.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.fmu.lgbth.R;
 import com.fmu.lgbth.dao.UserDao;
 import com.fmu.lgbth.database.Database;
 import com.fmu.lgbth.model.Post;
+import com.fmu.lgbth.model.RecyclerViewInterface;
 import com.fmu.lgbth.model.User;
 import com.fmu.lgbth.rest.RestClient;
 import com.fmu.lgbth.rest.api.PostsApi;
@@ -30,15 +30,12 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment {
-
-    private List<Post> postList;
-    private List<Post> newList;
-
+public class HomeFragment extends Fragment implements RecyclerViewInterface {
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -84,7 +81,7 @@ public class HomeFragment extends Fragment {
                         return;
                     }
 
-                    HomeNewsCardAdapter adapter = new HomeNewsCardAdapter(getContext(), postList);
+                    HomeNewsCardAdapter adapter = new HomeNewsCardAdapter(getContext(), postList, HomeFragment.this);
                     newsListView.setLayoutManager(lm);
                     newsListView.setAdapter(adapter);
                 }
@@ -185,17 +182,17 @@ public class HomeFragment extends Fragment {
             JsonObject json = new JsonObject();
             json.addProperty("userId", user.getId());
             json.addProperty("postId", id);
-            Call<String> call = api.postFavorite(json);
+            Call<ResponseBody> call = api.postFavorite(json);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.i("favorite", response.body().toString());
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Toast.makeText(getContext(), "Favoritado com sucesso !", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
                     Toast.makeText(getContext(), "Erro ao favoritar Post !", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -211,5 +208,14 @@ public class HomeFragment extends Fragment {
                 .build().getUserDao();
 
         return dao.get();
+    }
+
+    @Override
+    public void onItemClick(int position, View v, List<Post> newsList) {
+        ImageView iv = v.findViewById(R.id.post_favorite_icon);
+
+        iv.setOnClickListener(view -> {
+            setFavorite(newsList.get(position).getId());
+        });
     }
 }
