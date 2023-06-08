@@ -25,4 +25,7 @@ public interface PostsApi {
 
     @PUT("/favorites/posts/create")
     Call<ResponseBody> postFavorite(@Body JsonObject json);
+
+    @GET("/posts/{postId}")
+    Call<Post> getPostById(@Path("postId") int postId);
 }
