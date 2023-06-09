@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,6 +88,12 @@ public class FavoriteFragment extends Fragment {
                         intent.putExtra("POSTID", postList.get(i).getId());
 
                         startActivity(intent);
+
+                        ImageView cv = view.findViewById(R.id.news_favorite_icon);
+                        cv.setOnClickListener(v -> {
+                            unsetFavorite(postList.get(i).getId());
+                            newsAdapter.delete(i);
+                        });
                     });
                 }
 
@@ -98,6 +105,34 @@ public class FavoriteFragment extends Fragment {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void unsetFavorite (int id) {
+        try {
+            User user = getUser();
+
+            PostsApi api = new RestClient().getPostApi();
+            JsonObject json = new JsonObject();
+            json.addProperty("userId", user.getId());
+            json.addProperty("postId", id);
+            Call<ResponseBody> call = api.unfavoritePost(json);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Toast.makeText(getContext(), "Post desfavoritado !", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(getContext(), "Erro ao desfavoritar Post !", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Erro ao desfavoritar Post !", Toast.LENGTH_SHORT).show();
         }
     }
 

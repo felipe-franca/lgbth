@@ -61,4 +61,9 @@ public class HomePostsAdapter extends BaseAdapter {
         Bitmap decodeUserImage = Base64Converter.decodeImage(post.getBanner());
         banner.setImageBitmap(decodeUserImage);
     }
+
+    public void delete (int position) {
+        postList.remove(position);
+        this.notifyDataSetChanged();
+    }
 }
