@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_outline_home_24"
         android:title="@string/home_nav_menu" />
     <item
-        android:id="@+id/location"
-        android:icon="@drawable/ic_outline_location_on_24"
-        android:title="@string/localization_nav_menu" />
-    <item
         android:id="@+id/favorite"
         android:icon="@drawable/ic_outline_favorite_border_24"
         android:title="@string/favorite_nav_menu" />

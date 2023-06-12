@@ -12,12 +12,12 @@ import java.sql.Date;
 public class User {
     private Integer id;
     @NonNull
-    private final String name;
+    private String name;
     @NonNull
     @PrimaryKey
-    private final String email;
+    private String email;
     @NonNull
-    private final String password;
+    private String password;
     private Integer age;
     private String birthDate;
     private String avatar;
@@ -25,6 +25,22 @@ public class User {
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
+    }
+
+    public User () {
+
+    };
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setEmail(@NonNull String email) {
+        this.email = email;
+    }
+
+    public void setPassword(@NonNull String password) {
         this.password = password;
     }
 

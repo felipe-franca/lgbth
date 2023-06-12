@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.UserProfileActivity">
+
+    <ImageView
+        android:id="@+id/profile_activity_logo"
+        style="@style/splash_screen_image_200"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/lgbt_help_logo_definition"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_person_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_activity_person_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/grey_500"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_person_80"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_activity_logo"
+        app:shapeAppearanceOverlay="@style/rounded_image_view_rounded" />
+
+    <EditText
+        android:id="@+id/profile_activity_name_input"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_baseline_person_pin_24"
+        android:hint="@string/edittext_name_hint"
+        android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_activity_person_image" />
+
+    <EditText
+        android:id="@+id/profile_activity_email"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:hint="@string/edittext_email_hint"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_activity_name_input" />
+
+    <EditText
+        android:id="@+id/profile_activity_age"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:hint="Idade"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/baseline_how_to_reg_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_activity_email" />
+
+    <TextView
+        android:id="@+id/profile_activity_birthdate"
+        style="@style/default_input"
+        android:layout_width="0dp"
+        android:text="Selecionar Data"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_activity_age"
+        app:drawableStartCompat="@drawable/baseline_calendar_month_24" />
+
+    <Button
+        android:id="@+id/profile_activity_submit_issue"
+        style="@style/main_default_button"
+        android:text="@string/btn_save"
+        app:layout_constraintBottom_toTopOf="@id/profile_activity_cancel_issue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_activity_birthdate"
+        app:layout_constraintVertical_bias=".80"/>
+
+    <Button
+        android:id="@+id/profile_activity_cancel_issue"
+        style="@style/default_outlined_button"
+        android:text="@string/btn_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_activity_birthdate"
+        app:layout_constraintVertical_bias=".90"/>
+
+    <ProgressBar
+        android:id="@+id/profile_activity_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/profile_activity_submit_issue"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_activity_submit_issue"
+        app:layout_constraintStart_toStartOf="@+id/profile_activity_submit_issue"
+        app:layout_constraintEnd_toEndOf="@+id/profile_activity_submit_issue"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

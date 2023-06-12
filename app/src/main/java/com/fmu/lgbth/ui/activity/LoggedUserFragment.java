@@ -98,6 +98,13 @@ public class LoggedUserFragment extends Fragment {
             Intent usefullyPhonesIntent = new Intent(getContext(), UsefullyPhonesActivity.class);
             startActivity(usefullyPhonesIntent);
         });
+
+        Button uProfile = aView.findViewById(R.id.logged_user_profile_config);
+
+        uProfile.setOnClickListener(v -> {
+            Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
+            startActivity(userProfileIntent);
+        });
     }
 
     private void removePersistedUser() {
