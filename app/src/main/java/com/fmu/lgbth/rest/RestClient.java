@@ -15,7 +15,7 @@ public class RestClient {
 
     public RestClient() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://210b-200-170-249-117.ngrok-free.app")
+                .baseUrl("http://192.168.0.108:8888")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

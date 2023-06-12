@@ -1,11 +1,15 @@
 package com.fmu.lgbth.ui.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +25,8 @@ import com.fmu.lgbth.rest.RestClient;
 import com.fmu.lgbth.rest.api.UserApi;
 import com.fmu.lgbth.utils.Base64Converter;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,9 +112,41 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_REQ_CODE) {
-                imgFromGallery.setImageURI(data.getData());
+                Uri imageUri = data.getData();
+                String filePath = getPathFromUri(imageUri);
+
+                if (null != filePath) {
+                    File bitmapFile = new File(filePath);
+
+                    long fileSizeInBytes = bitmapFile.length();
+                    long fileSizeInKB = fileSizeInBytes / 1024;
+                    long fileSizeInMB = fileSizeInKB / 1024;
+
+                    Log.i("tamanho", Long.toString(fileSizeInMB));
+
+                    if (fileSizeInMB >= 1) {
+                        Toast.makeText(RegisterUserActivity.this, "A imagem deve ser inferior a 1MB", Toast.LENGTH_SHORT).show();
+                    } else {
+                        imgFromGallery.setImageURI(data.getData());
+                    }
+                } else {
+                    Toast.makeText(RegisterUserActivity.this, "Ocorreu um erro desconhecido ao tentar anexar a imagem. Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
+    }
+    private String getPathFromUri(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(columnIndex);
+            cursor.close();
+            return path;
+        }
+        return null;
     }
 
     private Boolean checkFields() {
@@ -131,18 +169,12 @@ public class RegisterUserActivity extends AppCompatActivity {
     private void postUserData(User user) {
         ShapeableImageView avatarView = findViewById(R.id.register_activity_person_image);
 
-        if (avatarView.getDrawable() instanceof VectorDrawable) {
-            cancelIssueButton.setVisibility(View.VISIBLE);
-            submitIssueButton.setVisibility(View.VISIBLE);
-            loading.setVisibility(View.GONE);
-            Toast.makeText(RegisterUserActivity.this, "Adicione uma imagem", Toast.LENGTH_SHORT).show();
-            return;
+        if (!(avatarView.getDrawable() instanceof VectorDrawable)) {
+            Bitmap avatarBitmap = ((BitmapDrawable) avatarView.getDrawable()).getBitmap();
+            String base64EncodedImage = Base64Converter.encodedImage(avatarBitmap);
+            user.setAvatar(base64EncodedImage);
         }
 
-        Bitmap avatarBitmap = ((BitmapDrawable) avatarView.getDrawable()).getBitmap();
-        String base64EncodedImage = Base64Converter.encodedImage(avatarBitmap);
-
-        user.setAvatar(base64EncodedImage);
         UserApi client = new RestClient().getUserApi();
         Call<User> call = client.create(user);
 

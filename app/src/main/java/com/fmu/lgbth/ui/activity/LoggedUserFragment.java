@@ -55,8 +55,10 @@ public class LoggedUserFragment extends Fragment {
             TextView userName = view.findViewById(R.id.logged_user_name);
             TextView userAge = view.findViewById(R.id.logged_user_age);
 
-            Bitmap userBitmapedImage = Base64Converter.decodeImage(user.getAvatar());
-            userImageView.setImageBitmap(userBitmapedImage);
+            if (!user.getAvatar().equals("")) {
+                Bitmap userBitmapedImage = Base64Converter.decodeImage(user.getAvatar());
+                userImageView.setImageBitmap(userBitmapedImage);
+            }
 
             userName.setText(user.getName());
 

@@ -2,9 +2,12 @@ package com.fmu.lgbth.ui.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -31,6 +34,8 @@ import com.fmu.lgbth.rest.api.UserApi;
 import com.fmu.lgbth.utils.Base64Converter;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,9 +92,41 @@ public class UserProfileActivity extends AppCompatActivity implements DatePicker
 
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_REQ_CODE) {
-                shapeableImageView.setImageURI(data.getData());
+                Uri imageUri = data.getData();
+                String filePath = getPathFromUri(imageUri);
+
+                if (null != filePath) {
+                    File bitmapFile = new File(filePath);
+
+                    long fileSizeInBytes = bitmapFile.length();
+                    long fileSizeInKB = fileSizeInBytes / 1024;
+                    long fileSizeInMB = fileSizeInKB / 1024;
+
+                    Log.i("tamanho", Long.toString(fileSizeInMB));
+
+                    if (fileSizeInMB >= 1) {
+                        Toast.makeText(UserProfileActivity.this, "A imagem deve ser inferior a 1MB", Toast.LENGTH_SHORT).show();
+                    } else {
+                        shapeableImageView.setImageURI(data.getData());
+                    }
+                } else {
+                    Toast.makeText(UserProfileActivity.this, "Ocorreu um erro desconhecido ao tentar anexar a imagem. Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
+    }
+
+    private String getPathFromUri(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(columnIndex);
+            cursor.close();
+            return path;
+        }
+        return null;
     }
 
     @Override
@@ -120,7 +157,7 @@ public class UserProfileActivity extends AppCompatActivity implements DatePicker
             userAge.setText(Integer.toString(user.getAge()));
         }
 
-        if (user.getAvatar() != null) {
+        if (user.getAvatar() != null && !user.getAvatar().equals("")) {
             Bitmap decodeUserImage = Base64Converter.decodeImage(user.getAvatar());
             userAvatar.setImageBitmap(decodeUserImage);
         }
@@ -167,23 +204,22 @@ public class UserProfileActivity extends AppCompatActivity implements DatePicker
             submitIssue.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
 
-            if (shapeableImageView.getDrawable() instanceof VectorDrawable) {
-                cancelButton.setVisibility(View.VISIBLE);
-                submitIssue.setVisibility(View.VISIBLE);
-                loading.setVisibility(View.INVISIBLE);
-                Toast.makeText(UserProfileActivity.this, "Adicione uma imagem", Toast.LENGTH_SHORT).show();
-                return;
+            if (!(shapeableImageView.getDrawable() instanceof VectorDrawable)) {
+                Bitmap avatarBitmap = ((BitmapDrawable) shapeableImageView.getDrawable()).getBitmap();
+                String base64EncodedImage = Base64Converter.encodedImage(avatarBitmap);
+                user.setAvatar(base64EncodedImage);
             }
 
-            Bitmap avatarBitmap = ((BitmapDrawable) shapeableImageView.getDrawable()).getBitmap();
-            String base64EncodedImage = Base64Converter.encodedImage(avatarBitmap);
-
-
-            user.setAvatar(base64EncodedImage);
             user.setName(userName.getText().toString());
             user.setEmail(userEmail.getText().toString());
-            user.setAge(Integer.parseInt(userAge.getText().toString()));
-            user.setBirthDate(birthDate.getText().toString());
+
+            if (!userAge.getText().toString().equals("")) {
+                user.setAge(Integer.parseInt(userAge.getText().toString()));
+            }
+
+            if (!birthDate.getText().toString().equals("") ) {
+                user.setBirthDate(birthDate.getText().toString());
+            }
 
             UserApi client = new RestClient().getUserApi();
             Call<User> call = client.update(user);
