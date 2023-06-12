@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.UserProfileActivity">
+    tools:context=".ui.activity.UserProfileActivity"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/profile_activity_logo"

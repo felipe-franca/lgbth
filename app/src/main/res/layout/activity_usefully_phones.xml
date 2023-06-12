@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.UsefullyPhonesActivity">
+    tools:context=".ui.activity.UsefullyPhonesActivity"
+    android:background="@color/white">
 
     <ProgressBar
         android:id="@+id/usefully_phones_unloaded_user_progress"
