@@ -35,6 +35,36 @@
             app:layout_constraintTop_toBottomOf="@+id/my_favorites_title"
             app:layout_constraintVertical_bias=".5" />
 
+        <TextView
+            android:id="@+id/non_user_logged"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/non_logged_user"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/non_favorites_existing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Vocẽ não tem nenhum favorito ainda. Adicione favoritos a partir da Home."
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <ListView
             android:id="@+id/favorite_post_card"
             android:layout_width="0dp"

@@ -26,5 +26,6 @@
     <string name="profile_config_label">Configurações de Perfil</string>
     <string name="usefully_phones">Telefones Úteis</string>
     <string name="logout">logout</string>
-    <string name="my_favorites_title">Meus Favritos</string>
+    <string name="my_favorites_title">Meus Favoritos</string>
+    <string name="non_logged_user">Você precisa se regisrar para poder acessar seus favoritos!</string>
 </resources>
