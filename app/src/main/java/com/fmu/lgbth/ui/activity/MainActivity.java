@@ -78,8 +78,10 @@ public class MainActivity extends AppCompatActivity {
         User user = dao.get();
 
         if (null != user) {
-            Bitmap decodeUserImage = Base64Converter.decodeImage(user.getAvatar());
-            userImage.setImageBitmap(decodeUserImage);
+            if (!user.getAvatar().equals("")) {
+                Bitmap decodeUserImage = Base64Converter.decodeImage(user.getAvatar());
+                userImage.setImageBitmap(decodeUserImage);
+            }
         }
     }
 }
