@@ -2,6 +2,8 @@ package com.fmu.lgbth.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -49,13 +51,23 @@ public class UsefullyPhonesActivity extends AppCompatActivity {
                     List<UsefullyPhone> body = response.body();
 
                     if (null == body) {
-                        Toast.makeText(UsefullyPhonesActivity.this, "Nenhum Telephones cadastrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UsefullyPhonesActivity.this, "Nenhum Telephone cadastrado", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     usefullyPhonesListView.setAdapter(new UsefullyPhonesAdapter(body, UsefullyPhonesActivity.this));
                     progressBar.setVisibility(View.GONE);
                     usefullyPhonesListView.setVisibility(View.VISIBLE);
+
+                    usefullyPhonesListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                        String content = body.get(i).getNumber().toString();
+
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(UsefullyPhonesActivity.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText(content, content);
+                        clipboard.setPrimaryClip(clip);
+
+                        Toast.makeText(getApplicationContext(), "Telefone copiado para a área de transferência", Toast.LENGTH_SHORT).show();
+                    });
 
                 }
 

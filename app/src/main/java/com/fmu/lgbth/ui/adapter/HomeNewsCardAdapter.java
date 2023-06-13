@@ -81,4 +81,9 @@ public class HomeNewsCardAdapter extends RecyclerView.Adapter<HomeNewsCardAdapte
     public long getItemId (int position) {
         return newsList.get(position).getId();
     }
+
+    public void updatePosts(List<Post> newPostsList) {
+        newsList = newPostsList;
+        notifyDataSetChanged();
+    }
 }

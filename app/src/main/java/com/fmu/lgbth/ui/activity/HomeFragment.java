@@ -1,6 +1,8 @@
 package com.fmu.lgbth.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements RecyclerViewInterface {
+    private HomeNewsCardAdapter recycleViewAdapter;
+    private String currentFilter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -82,9 +87,9 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                         return;
                     }
 
-                    HomeNewsCardAdapter adapter = new HomeNewsCardAdapter(getContext(), postList, HomeFragment.this);
+                    recycleViewAdapter = new HomeNewsCardAdapter(getContext(), postList, HomeFragment.this);
                     newsListView.setLayoutManager(lm);
-                    newsListView.setAdapter(adapter);
+                    newsListView.setAdapter(recycleViewAdapter);
                 }
 
                 @Override
@@ -150,39 +155,108 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         TextView politics = view.findViewById(R.id.home_politics_button);
 
         politics.setOnClickListener(politicsView -> {
-            Toast.makeText(getContext(), "Define what to do with politics", Toast.LENGTH_SHORT).show();
+            resetFilterColor(view);
 
-            return;
+            if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("politics")) {
+                configNewsByCategory("");
+                return;
+            }
+
+            Drawable gradientDrawable = getResources().getDrawable(R.drawable.selected_filter);
+            politics.setBackground(gradientDrawable);
+            politics.setTextColor(Color.BLACK);
+
+            currentFilter = "politics";
+
+            configNewsByCategory(currentFilter);
         });
 
         TextView works = view.findViewById(R.id.home_works_button);
 
         works.setOnClickListener(politicsView -> {
-            Toast.makeText(getContext(), "Define what to do with works", Toast.LENGTH_SHORT).show();
+            resetFilterColor(view);
 
-            return;
+            if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("works")) {
+                configNewsByCategory("");
+                return;
+            }
+
+            Drawable gradientDrawable = getResources().getDrawable(R.drawable.selected_filter);
+            works.setBackground(gradientDrawable);
+            works.setTextColor(Color.BLACK);
+
+            currentFilter = "works";
+
+            configNewsByCategory(currentFilter);
         });
 
         TextView ong = view.findViewById(R.id.home_ong_button);
 
         ong.setOnClickListener(politicsView -> {
-            Toast.makeText(getContext(), "Define what to do with ongs", Toast.LENGTH_SHORT).show();
+            resetFilterColor(view);
 
-            return;
+            if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("ong")) {
+                configNewsByCategory("");
+                return;
+            }
+
+            Drawable gradientDrawable = getResources().getDrawable(R.drawable.selected_filter);
+            ong.setBackground(gradientDrawable);
+            ong.setTextColor(Color.BLACK);
+
+            currentFilter = "ong";
+
+            configNewsByCategory(currentFilter);
         });
 
         TextView podcasts = view.findViewById(R.id.home_podcast_button);
 
         podcasts.setOnClickListener(politicsView -> {
-            Toast.makeText(getContext(), "Define what to do with podcasts", Toast.LENGTH_SHORT).show();
+            resetFilterColor(view);
 
-            return;
+            if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("podcasts")) {
+                configNewsByCategory("");
+                return;
+            }
+
+            Drawable gradientDrawable = getResources().getDrawable(R.drawable.selected_filter);
+            podcasts.setBackground(gradientDrawable);
+            podcasts.setTextColor(Color.BLACK);
+
+            currentFilter = "podcasts";
+
+            configNewsByCategory(currentFilter);
         });
+    }
+
+    private void resetFilterColor(View view) {
+        Drawable defaultBackground = getResources().getDrawable(R.drawable.home_options_background);
+
+        TextView politics = view.findViewById(R.id.home_politics_button);
+        politics.setBackground(defaultBackground);
+        politics.setTextColor(Color.WHITE);
+
+        TextView works = view.findViewById(R.id.home_works_button);
+        works.setBackground(defaultBackground);
+        works.setTextColor(Color.WHITE);
+
+        TextView ong = view.findViewById(R.id.home_ong_button);
+        ong.setBackground(defaultBackground);
+        ong.setTextColor(Color.WHITE);
+
+        TextView podcasts = view.findViewById(R.id.home_podcast_button);
+        podcasts.setBackground(defaultBackground);
+        podcasts.setTextColor(Color.WHITE);
     }
 
     private void setFavorite(int id) {
         try {
             User user = getUser();
+
+            if (null == user) {
+                Toast.makeText(getContext(), "Você precis estar logado para favoritar uma matéria.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             PostsApi api = new RestClient().getPostApi();
             JsonObject json = new JsonObject();
@@ -230,5 +304,32 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         iv.setOnClickListener(view -> {
             setFavorite(newsList.get(position).getId());
         });
+    }
+
+    private void configNewsByCategory(String category) {
+        try {
+            PostsApi api = new RestClient().getPostApi();
+            Call<List<Post>> call = !category.equals("") ? api.getPostByCategory(category) : api.getAll();
+
+            call.enqueue(new Callback<List<Post>>() {
+                @Override
+                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    List<Post> postList = response.body();
+
+                    if (null == postList) {
+                        Toast.makeText(getContext(), "Nenhum post encontrado", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    recycleViewAdapter.updatePosts(postList);
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -33,4 +33,7 @@ public interface PostsApi {
 
     @HTTP(method = "DELETE", path = "/favorites/posts/remove", hasBody = true)
     Call<ResponseBody> unfavoritePost(@Body JsonObject json);
+
+    @GET("/posts/category/{category}")
+    Call<List<Post>> getPostByCategory(@Path("category") String category);
 }
