@@ -181,11 +181,11 @@ public class RegisterUserActivity extends AppCompatActivity {
                 try {
                     User user = response.body();
                     Toast.makeText(RegisterUserActivity.this,
-                                    user.getName() + " cadastrado com sucesso !", Toast.LENGTH_SHORT)
+                                    user.getName() + " cadastrado com sucesso. Você já pode fazer seu login !", Toast.LENGTH_SHORT)
                             .show();
 
-                    Intent intent = new Intent(RegisterUserActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    Intent signInIntent = new Intent(RegisterUserActivity.this, SignInActivity.class);
+                    startActivity(signInIntent);
                     finish();
                 } catch (NullPointerException e) {
                     cancelIssueButton.setVisibility(View.VISIBLE);
