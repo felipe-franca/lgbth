@@ -1,10 +1,13 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -113,6 +118,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             lm.setOrientation(LinearLayoutManager.HORIZONTAL);
 
             call.enqueue(new Callback<List<Post>>() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                     List<Post> postList = response.body();

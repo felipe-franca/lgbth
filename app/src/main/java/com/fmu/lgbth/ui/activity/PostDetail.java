@@ -1,8 +1,11 @@
 package com.fmu.lgbth.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -58,6 +61,14 @@ public class PostDetail extends AppCompatActivity {
                 }
 
                 bind(post);
+
+                Button keepReeding = findViewById(R.id.post_detail_keep_reeding);
+
+                keepReeding.setOnClickListener(v -> {
+                    String url = post.getUrl();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
+                });
                 ProgressBar progressBar = findViewById(R.id.post_detail_progress_bar);
                 progressBar.setVisibility(View.GONE);
             }

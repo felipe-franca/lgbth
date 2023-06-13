@@ -28,4 +28,5 @@
     <string name="logout">logout</string>
     <string name="my_favorites_title">Meus Favoritos</string>
     <string name="non_logged_user">Você precisa se regisrar para poder acessar seus favoritos!</string>
+    <string name="keep_reeding">Continuar Lendo</string>
 </resources>
