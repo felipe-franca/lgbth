@@ -120,12 +120,9 @@ public class RegisterUserActivity extends AppCompatActivity {
 
                     long fileSizeInBytes = bitmapFile.length();
                     long fileSizeInKB = fileSizeInBytes / 1024;
-                    long fileSizeInMB = fileSizeInKB / 1024;
 
-                    Log.i("tamanho", Long.toString(fileSizeInMB));
-
-                    if (fileSizeInMB >= 1) {
-                        Toast.makeText(RegisterUserActivity.this, "A imagem deve ser inferior a 1MB", Toast.LENGTH_SHORT).show();
+                    if (fileSizeInKB >= 50) {
+                        Toast.makeText(RegisterUserActivity.this, "A imagem deve ser inferior a 50KB", Toast.LENGTH_SHORT).show();
                     } else {
                         imgFromGallery.setImageURI(data.getData());
                     }
