@@ -101,8 +101,6 @@ public class UserProfileActivity extends AppCompatActivity implements DatePicker
                     long fileSizeInBytes = bitmapFile.length();
                     long fileSizeInKB = fileSizeInBytes / 1024;
 
-                    Log.i("tamanho", Long.toString(fileSizeInKB));
-
                     if (fileSizeInKB >= 50) {
                         Toast.makeText(UserProfileActivity.this, "A imagem deve ser inferior a 50KB", Toast.LENGTH_SHORT).show();
                     } else {
