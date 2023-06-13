@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -164,7 +165,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             resetFilterColor(view);
 
             if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("politics")) {
-                configNewsByCategory("");
+                configNewsByCategory(view,"");
                 return;
             }
 
@@ -174,7 +175,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
             currentFilter = "politics";
 
-            configNewsByCategory(currentFilter);
+            configNewsByCategory(view, currentFilter);
         });
 
         TextView works = view.findViewById(R.id.home_works_button);
@@ -183,7 +184,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             resetFilterColor(view);
 
             if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("works")) {
-                configNewsByCategory("");
+                configNewsByCategory(view, "");
                 return;
             }
 
@@ -193,7 +194,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
             currentFilter = "works";
 
-            configNewsByCategory(currentFilter);
+            configNewsByCategory(view, currentFilter);
         });
 
         TextView ong = view.findViewById(R.id.home_ong_button);
@@ -202,7 +203,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             resetFilterColor(view);
 
             if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("ong")) {
-                configNewsByCategory("");
+                configNewsByCategory(view,"");
                 return;
             }
 
@@ -212,7 +213,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
             currentFilter = "ong";
 
-            configNewsByCategory(currentFilter);
+            configNewsByCategory(view, currentFilter);
         });
 
         TextView podcasts = view.findViewById(R.id.home_podcast_button);
@@ -221,7 +222,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             resetFilterColor(view);
 
             if (null != currentFilter && !currentFilter.equals("") && currentFilter.equals("podcasts")) {
-                configNewsByCategory("");
+                configNewsByCategory(view,"");
                 return;
             }
 
@@ -231,7 +232,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
             currentFilter = "podcasts";
 
-            configNewsByCategory(currentFilter);
+            configNewsByCategory(view, currentFilter);
         });
     }
 
@@ -298,6 +299,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position, View v, List<Post> newsList) {
+        Log.i("myposition", Integer.toString(position));
         v.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), PostDetail.class);
             intent.putExtra("POSTID", newsList.get(position).getId());
@@ -312,10 +314,12 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         });
     }
 
-    private void configNewsByCategory(String category) {
+    private void configNewsByCategory(View view, String category) {
         try {
             PostsApi api = new RestClient().getPostApi();
             Call<List<Post>> call = !category.equals("") ? api.getPostByCategory(category) : api.getAll();
+
+            RecyclerView newsListView = view.findViewById(R.id.home_news_recycler_list);
 
             call.enqueue(new Callback<List<Post>>() {
                 @Override
@@ -326,7 +330,9 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                         Toast.makeText(getContext(), "Nenhum post encontrado", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    recycleViewAdapter.updatePosts(postList);
+
+                    recycleViewAdapter = new HomeNewsCardAdapter(getContext(), postList, HomeFragment.this);
+                    newsListView.setAdapter(recycleViewAdapter);
                 }
 
                 @Override

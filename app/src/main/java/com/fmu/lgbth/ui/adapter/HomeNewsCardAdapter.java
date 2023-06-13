@@ -83,7 +83,7 @@ public class HomeNewsCardAdapter extends RecyclerView.Adapter<HomeNewsCardAdapte
     }
 
     public void updatePosts(List<Post> newPostsList) {
-        newsList = newPostsList;
+        this.newsList = newPostsList;
         notifyDataSetChanged();
     }
 }
